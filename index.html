@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Calculatrice</title>
+</head>
+<body>
+	<input type="text" name="input" placeholder="Votre calcul" id="input">
+	<br>
+	<button onclick="calculer();">Calculer</button>
+
+	<script type="text/javascript">
+		// Cette fonction est appelée pour effectuer le calcul
+		function calculer() {
+			result = document.getElementById("input").value;
+			
+			// On enlève de l'input tous les caractères non calculables
+			// On garde les chiffres, et x * + - . ,
+			result = result.match(/[0-9x*+-\/.,]/g).join('');
+
+			// On remplace les x par des *
+			tempResult = ""
+			for(iteration in result){
+				if(result[iteration] != "x" & result[iteration] != ","){
+					// Si le caractère n'est pas un x ou une virgule, alors on le laisse tel quel
+					tempResult += result[iteration];
+				}else if(result[iteration] == "x"){
+					// Si on trouve un x, on met un *
+					tempResult += "*";
+				}else{ // Si on trouve une virgule, on met un point
+					tempResult += "."
+				}
+			}
+			result = tempResult;
+
+			// On calcule le résultat
+			result = eval(result);
+
+			// On affiche le résultat
+			document.getElementById("input").value = result;
+
+			// On focus l'utilisateur sur le champ d'input
+			focusInput();
+		}
+
+		// Si l'utilisateur appuie sur Entrée, on effectue le calcul
+		window.addEventListener('keydown', (event) => {
+			if(event.key == "Enter"){
+				calculer();
+			}
+		})
+
+		// Fonction pour focus le champ d'input
+		function focusInput(){
+			document.getElementById("input").focus();
+		}
+
+		focusInput();
+	</script>
+
+	<style type="text/css">
+		input{
+			margin-top: 50px;
+			margin-left:  50px;
+			background-color: black;
+			font-size: 2.5em;
+			color:  white;
+			border:  1px solid white;
+			border-radius: 0;
+		}
+		button{
+			margin-left:  49px;
+			margin-top:  5px;
+			font-size: 2.0em;
+			color:  white;
+			background-color: black;
+			border:  3px solid white;
+			transition:  background-color .2s, color .2s;
+		}
+		button:hover{
+			background-color: white;
+			color: black;
+			cursor:  pointer;
+		}
+		body{
+			background-color:  black;
+			color:  white;
+		}
+	</style>
+</body>
+</html>
